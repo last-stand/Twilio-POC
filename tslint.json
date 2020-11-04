@@ -1,0 +1,23 @@
+{
+    "defaultSeverity": "error",
+    "extends": ["tslint:recommended"],
+    "jsRules": {
+        "no-unused-expression": true
+    },
+    "rules": {
+        "eofline": false,
+        "quotemark": [true, "single", "avoid-escape"],
+        "max-line-length": [true, 250],
+        "no-unused-expression": false,
+        "variable-name": [false],
+        "one-line": [false],
+        "one-variable-per-declaration": [false],
+        "await-promise": true,
+        "no-return-await": true,
+        "trailing-comma": [false],
+        "no-console": false,
+        "only-arrow-functions": false,
+        "jsdoc-format": false
+    },
+    "rulesDirectory": []
+}
