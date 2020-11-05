@@ -1,5 +1,13 @@
-import { fetchPhoneNumber, purchasePhoneNumber, releasePhoneNumber, searchAvailablePhoneNumber, sendSMS } from './twilio-sms'
+import {
+    fetchPhoneNumber,
+    getUsage,
+    purchasePhoneNumber,
+    releasePhoneNumber,
+    searchAvailablePhoneNumber,
+    sendSMS
+} from './twilio-sms'
 import { Router } from 'express';
+import MessagingResponse from 'twilio/lib/twiml/MessagingResponse';
 export const router = Router();
 const STATUS_OK = 200;
 
@@ -39,3 +47,16 @@ router.post('/messageStatus', (req, res) => {
     console.log(`SID: ${messageSid}, Status: ${messageStatus}`);
     res.sendStatus(STATUS_OK) ;
 });
+
+// Respond to an incoming text message
+router.post('/sms', (req, res) => {
+    const twiml = new MessagingResponse();
+    twiml.message('The Robots are coming! Head for the hills!');
+    res.writeHead(200, {'Content-Type': 'text/xml'});
+    res.end(twiml.toString());
+});
+
+router.get('/usage', async function (req, res) {
+    const result = await getUsage();
+    res.send(result)
+})

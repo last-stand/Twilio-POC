@@ -1,8 +1,9 @@
-const LIVE_TWILIO_ACCOUNT_SID = 'ACa0c61cf096869dba95ddef124783d4e1';
-const LIVE_TWILIO_AUTH_TOKEN = '211eeba1a1e10bddef71a31707c9b1e0';
-const TWILIO_ACCOUNT_SID = 'AC65d075f7a1551e7d95da8295f26804e8';
-const TWILIO_AUTH_TOKEN = '1bfeb55c4dda289e20614b788ce74961';
+const LIVE_TWILIO_ACCOUNT_SID = 'TwilioLiveAccountSid';
+const LIVE_TWILIO_AUTH_TOKEN = 'TwilioLiveAuthToken';
+const TWILIO_ACCOUNT_SID = 'TwilioTestAccountSid';
+const TWILIO_AUTH_TOKEN = 'TwilioTestAuthToken';
 import { Twilio } from 'twilio';
+import { RecordListInstanceOptions } from 'twilio/lib/rest/api/v2010/account/usage/record';
 import * as contract  from './interface';
 const client = new Twilio(LIVE_TWILIO_ACCOUNT_SID, LIVE_TWILIO_AUTH_TOKEN);
 
@@ -93,6 +94,33 @@ export async function sendSMS(
     try {
         const result = await client.messages.create(params);
         return result;
+    } catch (e) {
+        throw e;
+    }
+}
+
+/**
+ * example link
+ * https://www.twilio.com/docs/usage/api/usage-record
+*/
+export async function getUsage() {
+    try {
+        const filterOpts: RecordListInstanceOptions = {
+            category: 'sms-outbound',
+            startDate: new Date('2020-10-25'),
+            endDate: new Date('2020-11-4')
+        };
+        // One-Month Date-Range, Inbound SMS Only
+        // return client.usage.records?.list(filterOpts);
+
+        // Last Month's Usage for sms
+        // return client.usage.records?.lastMonth?.list({category: 'sms'});
+
+        // Today's SMS
+        // return client.usage.records?.today?.list({category: 'sms'});
+
+        // Daily Usage for Inbound SMS Over a One-Month Period
+        return client.usage.records?.daily?.list(filterOpts);
     } catch (e) {
         throw e;
     }
